@@ -1,9 +1,16 @@
+require('./models/Item.ts');
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const authRoutes = require('./routes/authRoutes.ts');
 
 const app = express();
 
-const mongooseUri = 'mongodb+srv://root:secretsauce@cluster0.akkpu8l.mongodb.net/?retryWrites=true&w=majority';
+app.use(bodyParser.json());
+app.use(authRoutes);
+
+const mongooseUri =
+    'mongodb+srv://root:secretsauce@cluster0.akkpu8l.mongodb.net/?retryWrites=true&w=majority';
 mongoose.connect(mongooseUri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 mongoose.connection.on('connected', () => {
