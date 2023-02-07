@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 const Item = mongoose.model('Item');
 
 const router = express.Router();
@@ -15,7 +16,9 @@ router.post('/items', async (req, res) => {
 
         await item.save();
 
-        res.send(item);
+        const token = jwt.sign({ title: item._id }, 'MY_SECRET_KEY');
+
+        res.send(token);
 
     } catch (err) {
         return res.status(422).send(err.message);
